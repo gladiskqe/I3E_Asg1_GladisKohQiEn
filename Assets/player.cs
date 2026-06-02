@@ -3,37 +3,57 @@ using UnityEngine.InputSystem;
 
 public class player : MonoBehaviour
 {
-    int score = 0;
+    int totalScore = 0;
 
-    GameObject currentCollidor;
+    GameObject lastTrigger;
 
+    bool isMenuShowing = false;
+
+    public UIManager MyUIManager;
+
+    void OnMenu()
+    {
+        MyUIManager.ShowMenu(isMenuShowing);
+        isMenuShowing = !isMenuShowing;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        print($"Triggered by {other.gameObject.name}");
+        lastTrigger = other.gameObject;
+    }
+    void OnTriggerExit(Collider other)
+    {
+        print($"Stopped triggering by {other.gameObject.name}");
+        lastTrigger = null;
+    }
     void OnCollisionEnter(Collision collision)
     {
-       currentCollidor = collision.gameObject;
-       print($"Collided with {currentCollidor.name}");
+       lastTrigger = collision.gameObject;
+       print($"Collided with {lastTrigger.name}");
     }
 
     void OnCollisionExit(Collision collision)
     {
-        currentCollidor = null;
+        lastTrigger = null;
         print($"Stopped colliding with {collision.gameObject.name}");
 
     }
 
     void OnInteract(InputValue value)
     {
-        if (currentCollidor != null)
+        if (lastTrigger != null)
         {
-            print($"Interacted with {currentCollidor.name}");
-            var collectable = currentCollidor.GetComponent<Collectible>();
+            print($"Interacted with {lastTrigger.name}");
+            var collectable = lastTrigger.GetComponent<Collectible>();
             if (collectable != null)
             {
-                score += collectable.score;
-                print($"Score: {score}");
+                totalScore += collectable.score;
+                print($"Score: {totalScore}");
                 collectable.Collect();
             }
 
-            var door = currentCollidor.GetComponent<Door>();
+            var door = lastTrigger.GetComponent<Door>();
             if (door != null)
             {
                 print("Interacted with door");
