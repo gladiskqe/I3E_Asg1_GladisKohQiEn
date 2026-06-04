@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class player : MonoBehaviour
 {
     int totalScore = 0;
+    Collectible currentCoin;
 
     GameObject lastTrigger;
 
@@ -16,22 +17,39 @@ public class player : MonoBehaviour
         MyUIManager.ShowMenu(isMenuShowing);
         isMenuShowing = !isMenuShowing;
     }
+    void OnCollisionEnter(Collision collision)
+        {   print(collision.gameObject.tag);
 
+            if (collision.gameObject.tag=="Coin")
+            {  
+                totalScore++;
+                print($"Coin score: {totalScore}");
+                Destroy(collision.gameObject);
+            }
+        }
     void OnTriggerEnter(Collider other)
-    {
+    {   
+
         print($"Triggered by {other.gameObject.name}");
         lastTrigger = other.gameObject;
+        
     }
     void OnTriggerExit(Collider other)
     {
         print($"Stopped triggering by {other.gameObject.name}");
         lastTrigger = null;
     }
-    void OnCollisionEnter(Collision collision)
-    {
-       lastTrigger = collision.gameObject;
-       print($"Collided with {lastTrigger.name}");
-    }
+    /*void OnCollisionEnter(Collision collision)
+    {   print(collision.gameObject.tag);
+
+        if (collision.gameObject.tag=="Coin")
+        {  
+            totalScore++;
+            print($"Coin score: {totalScore}");
+            Destroy(collision.gameObject);
+            print($"Collided with {lastTrigger.name}");
+        }
+    }*/
 
     void OnCollisionExit(Collision collision)
     {
@@ -40,25 +58,33 @@ public class player : MonoBehaviour
 
     }
 
-    void OnInteract(InputValue value)
+    void Interact()
     {
-        if (lastTrigger != null)
-        {
-            print($"Interacted with {lastTrigger.name}");
-            var collectable = lastTrigger.GetComponent<Collectible>();
-            if (collectable != null)
-            {
-                totalScore += collectable.score;
-                print($"Score: {totalScore}");
-                collectable.Collect();
-            }
+        if (lastTrigger == null)
+            return;
 
-            var door = lastTrigger.GetComponent<Door>();
-            if (door != null)
-            {
-                print("Interacted with door");
-                door.Interact();
-            }
+        print($"Interacted with {lastTrigger.name}");
+
+
+        var collectible = lastTrigger.GetComponent<Collectible>();
+        if (collectible != null)
+        {
+            totalScore += collectible.score;
+            print($"Score: {totalScore}");
+
+            if (MyUIManager != null)
+                MyUIManager.SetScore(totalScore);
+
+            collectible.Collect();
+            lastTrigger = null;
+            return;
+        }
+
+        var door = lastTrigger.GetComponent<Door>();
+        if (door != null)
+        {
+            print("Interacted with door");
+            door.Interact();
         }
     }
 }

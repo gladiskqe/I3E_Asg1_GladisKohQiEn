@@ -1,9 +1,9 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private Text ScoreText;
+    [SerializeField] private TextMeshProUGUI ScoreText;
     [SerializeField] private GameObject MenuPanel;
     private int score;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,10 +30,10 @@ public class UIManager : MonoBehaviour
         Cursor.visible = isVisible;
     }
 
-    public void IncrementScore()
+    /*public void IncrementScore()
     {
         score++;
-    }
+    }*/
     public void SetScore(int newScore)
     {
         score = newScore;

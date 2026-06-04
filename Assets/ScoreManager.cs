@@ -27,11 +27,11 @@ public class ScoreManager : MonoBehaviour
         UpdateUI();
     }
 
-    public void AddScore(int amount)
+    /*public void AddScore(int amount)
     {
         currentScore += amount;
         UpdateUI();
-    }
+    }*/
 
     void UpdateUI()
     {
