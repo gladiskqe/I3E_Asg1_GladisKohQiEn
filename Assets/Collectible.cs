@@ -7,11 +7,16 @@ public class Collectible : MonoBehaviour
 
    public void Collect()
     {
-        var audio = GetComponent<AudioSource>();
-        audio.Play();
+        if (Input.GetKeyDown(KeyCode.E))
+        score+= score;
+        {
+            var audio = GetComponent<AudioSource>();
+            audio.Play();
 
-        var renderer = GetComponent<Renderer>();
-        renderer.enabled = false;
-        Destroy(gameObject, 1);
+            var renderer = GetComponent<Renderer>();
+            renderer.enabled = false;
+            Destroy(gameObject, 1);
+        }
     }
 }
+    
