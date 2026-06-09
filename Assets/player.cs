@@ -1,10 +1,13 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class player : MonoBehaviour
 {
     int totalScore = 0;
-    Collectible currentCoin;
+
+    public TMP_Text ScoreText;
+    Collectible Coin;
 
     GameObject lastTrigger;
 
@@ -17,16 +20,16 @@ public class player : MonoBehaviour
         MyUIManager.ShowMenu(isMenuShowing);
         isMenuShowing = !isMenuShowing;
     }
-    void OnCollisionEnter(Collision collision)
+    /*void OnCollisionEnter(Collision collision)
         {   print(collision.gameObject.tag);
 
             if (collision.gameObject.tag=="Coin")
             {  
                 totalScore++;
-                print($"Coin score: {totalScore}");
+                ScoreText.text = $"Score: {totalScore}";
                 Destroy(collision.gameObject);
             }
-        }
+        }*/
     void OnTriggerEnter(Collider other)
     {   
 
@@ -64,13 +67,13 @@ public class player : MonoBehaviour
             return;
 
         print($"Interacted with {lastTrigger.name}");
-
-
+        
         var collectible = lastTrigger.GetComponent<Collectible>();
         if (collectible != null)
         {
             totalScore += collectible.score;
-            print($"Score: {totalScore}");
+            print($"TotalScore: {totalScore}");
+            ScoreText.text = $"Score: {totalScore}";
 
             if (MyUIManager != null)
                 MyUIManager.SetScore(totalScore);

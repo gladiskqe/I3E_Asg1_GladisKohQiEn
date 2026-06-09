@@ -7,8 +7,8 @@ public class Collectible : MonoBehaviour
 
    public void Collect()
     {
-       // var audio = GetComponent<AudioSource>();
-        //audio.Play();
+        var audio = GetComponent<AudioSource>();
+        audio.Play();
 
         var renderer = GetComponent<Renderer>();
         renderer.enabled = false;
