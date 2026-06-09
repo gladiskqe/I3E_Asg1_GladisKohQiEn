@@ -30,31 +30,36 @@ public class player : MonoBehaviour
                 Destroy(collision.gameObject);
             }
         }*/
-    void OnTriggerEnter(Collider other)
-    {   
+   
 
-        print($"Triggered by {other.gameObject.name}");
-        lastTrigger = other.gameObject;
-        
+    private GameObject nearbyInteractable;
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && nearbyInteractable != null)
+        {
+            nearbyInteractable.GetComponent<Collectible>().Collect();
+        }
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Coin"))
+        {
+            nearbyInteractable = other.gameObject;
+            // Optional: show "Press E to collect" UI here
+        }
+    }
+
     void OnTriggerExit(Collider other)
     {
-        print($"Stopped triggering by {other.gameObject.name}");
-        lastTrigger = null;
-    }
-    /*void OnCollisionEnter(Collision collision)
-    {   print(collision.gameObject.tag);
-
-        if (collision.gameObject.tag=="Coin")
-        {  
-            totalScore++;
-            print($"Coin score: {totalScore}");
-            Destroy(collision.gameObject);
-            print($"Collided with {lastTrigger.name}");
+        if (other.CompareTag("Coin"))
+        {
+            nearbyInteractable = null;
         }
-    }*/
+    }
 
-    void OnCollisionExit(Collision collision)
+        void OnCollisionExit(Collision collision)
     {
         lastTrigger = null;
         print($"Stopped colliding with {collision.gameObject.name}");
