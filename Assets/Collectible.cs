@@ -8,8 +8,8 @@ public class Collectible : MonoBehaviour
    public void Collect()
     {
         if (Input.GetKeyDown(KeyCode.E))
-        score+= score;
         {
+            score += score;
             var audio = GetComponent<AudioSource>();
             audio.Play();
 

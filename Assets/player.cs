@@ -5,31 +5,24 @@ using UnityEngine.InputSystem;
 public class player : MonoBehaviour
 {
     int totalScore = 0;
+    int totalCrystal = 0;  
 
     public TMP_Text ScoreText;
-    Collectible Coin;
+     public UIManager MyUIManager;
 
     GameObject lastTrigger;
 
     bool isMenuShowing = false;
-
-    public UIManager MyUIManager;
-
+    
     void OnMenu()
     {
         MyUIManager.ShowMenu(isMenuShowing);
         isMenuShowing = !isMenuShowing;
     }
-    /*void OnCollisionEnter(Collision collision)
-        {   print(collision.gameObject.tag);
-
-            if (collision.gameObject.tag=="Coin")
-            {  
-                totalScore++;
-                ScoreText.text = $"Score: {totalScore}";
-                Destroy(collision.gameObject);
-            }
-        }*/
+     void OnInteract(InputValue value)
+    {
+        Interact();
+    }
    
     /*E to collect*/
     private GameObject nearbyInteractable;
@@ -85,6 +78,21 @@ public class player : MonoBehaviour
                 MyUIManager.SetScore(totalScore);
 
             collectible.Collect();
+            lastTrigger = null;
+            return;
+        }
+
+        var crystal = lastTrigger.GetComponent<Crystal>();
+        if (crystal != null)
+        {
+            totalCrystal += crystal.crystalValue;
+            print($"Total Crystal: {totalCrystal}");
+            ScoreText.text = $"Crystal: {totalCrystal}";
+
+            if (MyUIManager != null)
+                MyUIManager.SetScore(totalCrystal);
+
+            crystal.Collect();
             lastTrigger = null;
             return;
         }
