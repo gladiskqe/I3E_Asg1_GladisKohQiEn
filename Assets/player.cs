@@ -31,7 +31,7 @@ public class player : MonoBehaviour
             }
         }*/
    
-
+    /*E to collect*/
     private GameObject nearbyInteractable;
 
     void Update()
@@ -39,12 +39,13 @@ public class player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && nearbyInteractable != null)
         {
             nearbyInteractable.GetComponent<Collectible>().Collect();
+            nearbyInteractable.GetComponent<Crystal>().Collect();
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Coin"))
+        if (other.CompareTag("Coin") || other.CompareTag("Crystal"))
         {
             nearbyInteractable = other.gameObject;
             // Optional: show "Press E to collect" UI here
@@ -53,7 +54,7 @@ public class player : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Coin"))
+        if (other.CompareTag("Coin") || other.CompareTag("Crystal"))
         {
             nearbyInteractable = null;
         }
