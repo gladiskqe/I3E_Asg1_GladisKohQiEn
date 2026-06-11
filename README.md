@@ -22,7 +22,7 @@ Healthbar
 Coin score
 Crystal collectable
 
-No bugs or major issues.
+Coin will have issues if double click.
 
 Credits: Roblox, Chatgpt, Claude, Co-Poilot, Youtube
 
