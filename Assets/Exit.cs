@@ -7,7 +7,7 @@ public class Exit : MonoBehaviour
 
     public void Interact(int totalScore)
     {
-        if (totalScore == 15)
+        if (totalScore == 15)//15 coins to exit and win the game//
         {   
             print("Congratulations! You have collected all the coins and Exited!");
             ShowPopup();

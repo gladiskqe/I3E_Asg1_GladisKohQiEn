@@ -9,10 +9,10 @@ public class CongratsPopup : MonoBehaviour
     public void ShowPopup()
     {
         popupPanel.SetActive(true);
-
+        //pops up for 2 seconds//
         StartCoroutine(CloseAfterDelay(2f));
     }
-
+    //closes the popup after a delay//
     IEnumerator CloseAfterDelay(float seconds)
     {
         yield return new WaitForSeconds(seconds);

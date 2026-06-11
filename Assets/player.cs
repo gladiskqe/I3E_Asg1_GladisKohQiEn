@@ -115,7 +115,7 @@ public class player : MonoBehaviour
             collectible.Collect();
             nearbyInteractable = null;
 
-                if (totalScore == 5) // Assuming 5 coins are needed to win
+                if (totalScore == 5) // 5 coins are needed to active popup//
                     {
                         CongratsPopup.ShowPopup(); // Show the congrats popup when the player collects all items
                     }
