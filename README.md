@@ -5,7 +5,7 @@ Github Link:https:https://github.com/gladiskqe/I3E_Asg1_GladisKohQiEn.git
 Candyland Obby game
 the user audience intent and purpose is to allow user to try the different stages with progressive diffculities and have fun while playing the game.
 
-The stages gets more challenging as you continue and towards the end you might get instantly killed. I've also added neccessary collectible items such as crystal and coins to unlock doors.
+The stages gets more challenging as you continue and towards the end you might get instantly killed. I've also added neccessary collectible items such as crystal and coins to unlock doors. Click "E" to interact with Coins, Crystal, Door and Exit. Crystal is at the top. White colour is safe.
 
 External source code used: Chatgpt, Co-Poilot, Claude, Youtube.
 
