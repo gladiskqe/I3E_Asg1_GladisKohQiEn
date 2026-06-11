@@ -16,8 +16,8 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        if (ScoreText != null)
-            ScoreText.text = $"Score: {score}";
+        //if (ScoreText != null)
+           // ScoreText.text = $"Score: {score}";
     }
 
     public void ShowMenu(bool isVisible)

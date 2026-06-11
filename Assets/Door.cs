@@ -7,12 +7,13 @@ public class Door : MonoBehaviour
     bool isOpen = false; // Track whether the door is open or closed   
     
     public void Interact()
+
     {   if (Input.GetKeyDown(KeyCode.E))
-        {   
-            if (!isOpen) transform.Rotate(rotateAmount); // Rotate the door to open it
-            else transform.Rotate(rotateAmount * -1); // Rotate the door back to close it
-            isOpen = !isOpen; // Mark the door as open
-        }
+ 
+                if (!isOpen) transform.parent.Rotate(rotateAmount); // Rotate the door to open it
+                else transform.parent.Rotate(rotateAmount * -1); // Rotate the door back to close it
+                isOpen = !isOpen; // Mark the door as open
+            
     }
     
 }

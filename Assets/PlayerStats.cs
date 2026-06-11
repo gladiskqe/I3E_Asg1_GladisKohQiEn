@@ -16,6 +16,7 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        print($"Player takes {amount} damage!"); // Log the damage taken for debugging
         currentHealth -= amount; // Reduce current health by the damage amount
         healthBar.SetSlider(currentHealth); // Update the health bar to reflect the new health value
 

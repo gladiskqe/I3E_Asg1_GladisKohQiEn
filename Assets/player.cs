@@ -3,37 +3,59 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class player : MonoBehaviour
+
+
 {
     int totalScore = 0;
     int totalCrystal = 0;  
 
-    public TMP_Text ScoreText;
+    public TMP_Text CoinText;
+    public TMP_Text CrystalText;
      public UIManager MyUIManager;
 
-    GameObject lastTrigger;
+    GameObject nearbyInteractable;
 
     bool isMenuShowing = false;
     
     void OnMenu()
     {
-        MyUIManager.ShowMenu(isMenuShowing);
-        isMenuShowing = !isMenuShowing;
+        //MyUIManager.ShowMenu(isMenuShowing);
+        //isMenuShowing = !isMenuShowing;
     }
      void OnInteract(InputValue value)
     {
         Interact();
     }
    
-    /*E to collect*/
-    private GameObject nearbyInteractable;
-
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && nearbyInteractable != null)
-        {
-            nearbyInteractable.GetComponent<Collectible>().Collect();
-            nearbyInteractable.GetComponent<Crystal>().Collect();
-        }
+        // if (Input.GetKeyDown(KeyCode.E) && nearbyInteractable != null)
+        // {
+        //     if(nearbyInteractable.CompareTag("Coin"))
+        //     {
+        //         var collectible = nearbyInteractable.GetComponent<Collectible>();
+        //         totalScore += collectible.score;
+        //         print($"Coin: {totalScore}");
+        //         CoinText.text = $"Coin: {totalScore}";
+
+        //         if (MyUIManager != null)
+        //             MyUIManager.SetScore(totalScore);
+
+        //         collectible.Collect();
+        //     }
+        //     else if(nearbyInteractable.CompareTag("Crystal"))
+        //     {
+        //         var crystal = nearbyInteractable.GetComponent<Crystal>();
+        //         totalCrystal += crystal.crystalValue;
+        //         print($"Crystal: {totalCrystal}");
+        //         CrystalText.text = $"Crystal: {totalCrystal}";
+
+        //         if (MyUIManager != null)
+        //             MyUIManager.SetScore(totalCrystal);
+
+        //         crystal.Collect();
+        //     }
+        // }
     }
 
     void OnTriggerEnter(Collider other)
@@ -53,51 +75,62 @@ public class player : MonoBehaviour
         }
     }
 
-        void OnCollisionExit(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
-        lastTrigger = null;
-        print($"Stopped colliding with {collision.gameObject.name}");
-
+        if (collision.gameObject.CompareTag("Door"))
+        {
+            nearbyInteractable = collision.gameObject;
+            print($"Colliding with {collision.gameObject.name}");
+        }
+    }
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Door"))
+        {
+            nearbyInteractable = null;
+            print($"Stopped colliding with {collision.gameObject.name}");
+        }
     }
 
     void Interact()
     {
-        if (lastTrigger == null)
+        print("Interacted");
+        if (nearbyInteractable == null)
             return;
 
-        print($"Interacted with {lastTrigger.name}");
+        print($"Interacted with {nearbyInteractable.name}");
         
-        var collectible = lastTrigger.GetComponent<Collectible>();
+        var collectible = nearbyInteractable.GetComponent<Collectible>();
         if (collectible != null)
         {
             totalScore += collectible.score;
             print($"TotalScore: {totalScore}");
-            ScoreText.text = $"Score: {totalScore}";
+            CoinText.text = $"Coin: {totalScore}";
 
             if (MyUIManager != null)
                 MyUIManager.SetScore(totalScore);
 
             collectible.Collect();
-            lastTrigger = null;
+            nearbyInteractable = null;
             return;
         }
 
-        var crystal = lastTrigger.GetComponent<Crystal>();
+        var crystal = nearbyInteractable.GetComponent<Crystal>();
         if (crystal != null)
         {
             totalCrystal += crystal.crystalValue;
             print($"Total Crystal: {totalCrystal}");
-            ScoreText.text = $"Crystal: {totalCrystal}";
+            CrystalText.text = $"Crystal: {totalCrystal}";
 
             if (MyUIManager != null)
                 MyUIManager.SetScore(totalCrystal);
 
             crystal.Collect();
-            lastTrigger = null;
+            nearbyInteractable = null;
             return;
         }
 
-        var door = lastTrigger.GetComponent<Door>();
+        var door = nearbyInteractable.GetComponent<Door>();
         if (door != null)
         {
             print("Interacted with door");
