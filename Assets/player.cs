@@ -105,11 +105,11 @@ public class player : MonoBehaviour
         var collectible = nearbyInteractable.GetComponent<Collectible>();
         if (collectible != null)
         {
-            totalScore += collectible.score;
+           
+
+            if (MyUIManager != null) totalScore += collectible.score;
             print($"TotalScore: {totalScore}");
             CoinText.text = $"Coin: {totalScore}/15";
-
-            if (MyUIManager != null)
                 MyUIManager.SetScore(totalScore);
 
             collectible.Collect();

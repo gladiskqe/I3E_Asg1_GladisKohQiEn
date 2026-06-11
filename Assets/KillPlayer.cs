@@ -1,21 +1,24 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Required for reloading the level
+using UnityEngine.SceneManagement;
+using System.Collections;
+
 public class KillPlayer : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private GameObject deathPopup; // Drag your popup UI here in Inspector
+    [SerializeField] private float delayBeforeReload = 2f;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Die();
+            deathPopup.SetActive(true); // Show the popup
+            StartCoroutine(ReloadAfterDelay());
         }
     }
-    
 
-    void Die()
+    private IEnumerator ReloadAfterDelay()
     {
-        /*Reload the current active scene to reset everything*/
+        yield return new WaitForSeconds(delayBeforeReload); // Wait, then reload
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
-
