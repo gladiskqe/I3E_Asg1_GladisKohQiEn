@@ -7,12 +7,13 @@ public class player : MonoBehaviour
 {   
     [SerializeField] private CongratsPopup CongratsPopup; // Reference to the CongratsPopup script
     [SerializeField] private CongratsPopup LockdoorPopup; // Reference to the LockdoorPopup script
-    public int totalScore = 0;
-    public int totalCrystal = 0;
+    [SerializeField] private Exit Exit; // Reference to the Exit script
+    [SerializeField] public int totalScore = 0;
+    [SerializeField] public int totalCrystal = 0;
 
-    public TMP_Text CoinText;
-    public TMP_Text CrystalText;
-     public UIManager MyUIManager;
+    [SerializeField] public TMP_Text CoinText;
+    [SerializeField] public TMP_Text CrystalText;
+    [SerializeField] public UIManager MyUIManager;
 
     GameObject nearbyInteractable;
 
@@ -61,7 +62,7 @@ public class player : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Coin") || other.CompareTag("Crystal"))
+        if (other.CompareTag("Coin") || other.CompareTag("Crystal") || other.CompareTag("Exit"))
         {
             nearbyInteractable = other.gameObject;
             // Optional: show "Press E to collect" UI here
@@ -70,7 +71,7 @@ public class player : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Coin") || other.CompareTag("Crystal"))
+        if (other.CompareTag("Coin") || other.CompareTag("Crystal") || other.CompareTag("Exit"))
         {
             nearbyInteractable = null;
         }
@@ -92,7 +93,7 @@ public class player : MonoBehaviour
             print($"Stopped colliding with {collision.gameObject.name}");
         }
     }
-
+    //Press E//
     void Interact()
     {
         print("Interacted");
@@ -106,7 +107,7 @@ public class player : MonoBehaviour
         {
             totalScore += collectible.score;
             print($"TotalScore: {totalScore}");
-            CoinText.text = $"Coin: {totalScore}";
+            CoinText.text = $"Coin: {totalScore}/15";
 
             if (MyUIManager != null)
                 MyUIManager.SetScore(totalScore);
@@ -146,6 +147,13 @@ public class player : MonoBehaviour
             {
                 LockdoorPopup.ShowPopup(); // Show the lockdoor popup when the player collects the required crystal
             }
+        }
+
+        var exit = nearbyInteractable.GetComponent<Exit>();
+        if (exit != null)
+        {
+            print("Interacted with Exit");
+            exit.Interact(totalScore); // Pass the total score to the exit's Interact method
         }
     }
 }
