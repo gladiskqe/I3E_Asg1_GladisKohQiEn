@@ -4,10 +4,11 @@ using UnityEngine.InputSystem;
 
 public class player : MonoBehaviour
 
-
-{
-    int totalScore = 0;
-    int totalCrystal = 0;  
+{   
+    [SerializeField] private CongratsPopup CongratsPopup; // Reference to the CongratsPopup script
+    [SerializeField] private CongratsPopup LockdoorPopup; // Reference to the LockdoorPopup script
+    public int totalScore = 0;
+    public int totalCrystal = 0;
 
     public TMP_Text CoinText;
     public TMP_Text CrystalText;
@@ -112,7 +113,13 @@ public class player : MonoBehaviour
 
             collectible.Collect();
             nearbyInteractable = null;
-            return;
+
+                if (totalScore == 5) // Assuming 5 coins are needed to win
+                    {
+                        CongratsPopup.ShowPopup(); // Show the congrats popup when the player collects all items
+                    }
+                return;
+
         }
 
         var crystal = nearbyInteractable.GetComponent<Crystal>();
@@ -120,7 +127,7 @@ public class player : MonoBehaviour
         {
             totalCrystal += crystal.crystalValue;
             print($"Total Crystal: {totalCrystal}");
-            CrystalText.text = $"Crystal: {totalCrystal}";
+            CrystalText.text = $"Crystal: {totalCrystal}/1";
 
             if (MyUIManager != null)
                 MyUIManager.SetScore(totalCrystal);
@@ -134,7 +141,11 @@ public class player : MonoBehaviour
         if (door != null)
         {
             print("Interacted with door");
-            door.Interact();
+            door.Interact(totalCrystal); // Pass the total crystal count to the door's Interact method
+            if (totalCrystal == 0) // Assuming 1 crystal is needed to open the door
+            {
+                LockdoorPopup.ShowPopup(); // Show the lockdoor popup when the player collects the required crystal
+            }
         }
     }
 }

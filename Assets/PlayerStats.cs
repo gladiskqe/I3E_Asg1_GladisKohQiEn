@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement; // Required for reloading the level
 public class PlayerStats : MonoBehaviour
 {
     [SerializeField] private float maxHealth;
+    [SerializeField] private DeathPopup DeathPopup; // Reference to the DeathPopup script
     private float currentHealth;
 
     public HealthBar healthBar; // Reference to the HealthBar script
@@ -23,7 +24,7 @@ public class PlayerStats : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die(); // Call the Die method if health drops to zero or below
-    
+            DeathPopup.GetComponents<DeathPopup>()[0].ShowPopup(); // Show the death popup when the player dies
         }
     }
 
